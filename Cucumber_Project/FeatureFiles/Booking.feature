@@ -4,6 +4,7 @@ Scenario Outline: AS Admin user validating the Booking steps
 When Open Browser
 When Open Application url"https://trinadhtrendz.ccbp.tech/login"
 When I enter username "<username>" and password "<password>"
+Then I should be logged in or see an error message
 When wait for ShopNow with "xpath" and "//button[normalize-space()='Shop Now']"
 When Click On ShopNow with "xpath" and "//button[normalize-space()='Shop Now']"
 When I scroll the scrollbar to the center of the page

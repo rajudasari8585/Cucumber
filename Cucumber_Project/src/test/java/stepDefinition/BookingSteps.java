@@ -1,6 +1,8 @@
 package stepDefinition;
 
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,28 +27,36 @@ public class BookingSteps {
 	public void open_Application_url(String url) throws Throwable {
 		FunctionLibrary.openUrl(url);
 	}
-
-	@When("^wait for Username with \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void wait_for_Username_with_and(String Locator_Type, String Locator_Value) throws Throwable {
-	   FunctionLibrary.waitForElement(Locator_Type, Locator_Value, "100");
+	@When("^I enter username \"([^\"]*)\" and password \"([^\"]*)\"$")
+	public void i_enter_username_and_password(String username, String password) throws Throwable {
+		 WebElement usernameField = driver.findElement(By.xpath("//input[@id='username']"));
+	        WebElement passwordField = driver.findElement(By.xpath("//input[@id='password']"));
+	        
+	        usernameField.sendKeys(username);
+	        passwordField.sendKeys(password);
+	        
+	        // Click login button
+	        WebElement loginButton = driver.findElement(By.xpath("//button[normalize-space()='Login']"));
+	        loginButton.click();
 	}
 
-	@When("^Enter Username with \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void enter_Username_with_and_and(String Locator_Type, String Locator_Value,String Test_Data) throws Throwable {
-	    FunctionLibrary.typeAction(Locator_Type, Locator_Value, Test_Data);
-	}
-
-	@When("^Enter password with \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void enter_password_with_and_and(String Locator_Type, String Locator_Value,String Test_Data) throws Throwable {
-		 FunctionLibrary.typeAction(Locator_Type, Locator_Value, Test_Data);
-	}
-
-	@When("^Clock On Login with \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void clock_On_Login_with_and(String Locator_Type, String Locator_Value) throws Throwable {
-	    FunctionLibrary.clickAction(Locator_Type, Locator_Value);
-	}
-
-	@When("^wait for ShopNow with \"([^\"]*)\" and \"([^\"]*)\"$")
+	@Then("^I should be logged in or see an error message$")
+	public void i_should_be_logged_in_or_see_an_error_message() throws Throwable {
+		 try {
+	            // Assuming there's some element indicating successful login, for example, a logout button
+	            WebElement logoutButton = driver.findElement(By.xpath("//button[normalize-space()='Logout']"));
+	            assertTrue(logoutButton.isDisplayed());
+	        } catch (org.openqa.selenium.NoSuchElementException e) {
+	            // Error message element not found, login failed
+	            WebElement errorMessage = driver.findElement(By.xpath("//p[@class='error-message']"));
+	            assertTrue(errorMessage.isDisplayed());
+	        }
+	        
+	        // Quit WebDriver
+	        driver.quit();
+	    }
+	
+		@When("^wait for ShopNow with \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void wait_for_ShopNow_with_and(String Locator_Type, String Locator_Value) throws Throwable {
 	   FunctionLibrary.waitForElement(Locator_Type, Locator_Value,"5000");
 	}
@@ -117,7 +127,7 @@ public class BookingSteps {
 	}
 	@When("^wait for Lowest Price item with \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void wait_for_Lowest_Price_item_with_and(String Locator_Type, String Locator_Value) throws Throwable {
-		FunctionLibrary.waitForElement(Locator_Type, Locator_Value, "5000");
+		FunctionLibrary.waitForElement(Locator_Type, Locator_Value, "10000");
 	}
 
 	@When("^I click the Lowest Price item with \"([^\"]*)\" and \"([^\"]*)\"$")

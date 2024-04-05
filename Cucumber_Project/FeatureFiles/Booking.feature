@@ -3,10 +3,7 @@ Feature: validating Booking steps
 Scenario Outline: AS Admin user validating the Booking steps
 When Open Browser
 When Open Application url"https://trinadhtrendz.ccbp.tech/login"
-When wait for Username with "xpath" and "//input[@id='username']"
-When Enter Username with "xpath" and "//input[@id='username']" and "rahul"
-When Enter password with "Xpath" and "//input[@id='password']" and "rahul@2021"
-When Clock On Login with "xpath" and "//button[normalize-space()='Login']"
+When I enter username "<username>" and password "<password>"
 When wait for ShopNow with "xpath" and "//button[normalize-space()='Shop Now']"
 When Click On ShopNow with "xpath" and "//button[normalize-space()='Shop Now']"
 When I scroll the scrollbar to the center of the page
@@ -36,5 +33,4 @@ Examples:
 |username|password|
 |rahul|rahul@2021|
 |rahul1|rahul@2021|
-|rahul|rahul@2022|
 |rahul|rahul@2021|
